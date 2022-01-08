@@ -1,17 +1,20 @@
-micronaut:
-  application:
-    name: backend
-  security:
-    authentication: cookie
-    oauth2:
-      clients:
-        default:
-          client-id: ${OAUTH_CLIENT_ID}
-          client-secret: ${OAUTH_CLIENT_SECRET}
-datasources:
-  default:
-    url: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+micronaut :
+  security :
+    enabled : true
+    reject-not-found : false
+    authentication : bearer
+    oauth2 :
+      clients :
+        spotify :
+          client-id : ${OAUTH_CLIENT_ID}
+          client-secret : ${OAUTH_CLIENT_SECRET}
+          scopes :
+            - user-read-currently-playing
+            - user-read-playback-state
+          authorization :
+            url : https://accounts.spotify.com/authorize
+            token :
+              url : https://accounts.spotify.com/api/token
+              auth-method : client-secret-post
+  application :
+    name : smartmirror-backend

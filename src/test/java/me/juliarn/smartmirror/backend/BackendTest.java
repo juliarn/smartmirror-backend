@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror;
+package me.juliarn.smartmirror.backend;
 
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
