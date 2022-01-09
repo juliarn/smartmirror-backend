@@ -2,7 +2,7 @@ micronaut :
   security :
     enabled : true
     reject-not-found : false
-    authentication : bearer
+    authentication : idtoken
     oauth2 :
       clients :
         spotify :
@@ -13,8 +13,8 @@ micronaut :
             - user-read-playback-state
           authorization :
             url : https://accounts.spotify.com/authorize
-            token :
-              url : https://accounts.spotify.com/api/token
-              auth-method : client-secret-post
+          token :
+            url : https://accounts.spotify.com/api/token
+            auth-method : client-secret-post
   application :
     name : smartmirror-backend
