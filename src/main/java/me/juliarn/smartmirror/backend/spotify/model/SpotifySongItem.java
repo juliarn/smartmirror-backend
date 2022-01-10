@@ -1,13 +1,20 @@
 package me.juliarn.smartmirror.backend.spotify.model;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import io.micronaut.core.annotation.Creator;
+import io.micronaut.core.annotation.Introspected;
 import java.util.List;
 
+@Introspected
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SpotifySongItem {
 
   private String name;
   private List<ItemArtist> artists;
   private Integer durationMs;
 
+  @Creator
   public SpotifySongItem(String name, List<ItemArtist> artists, Integer durationMs) {
     this.name = name;
     this.artists = artists;
@@ -38,10 +45,13 @@ public class SpotifySongItem {
     this.durationMs = durationMs;
   }
 
+  @Introspected
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class ItemArtist {
 
     private String name;
 
+    @Creator
     public ItemArtist(String name) {
       this.name = name;
     }
@@ -55,11 +65,14 @@ public class SpotifySongItem {
     }
   }
 
+  @Introspected
+  @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
   public static class ItemAlbum {
 
     private String name;
     private List<AlbumImage> images;
 
+    @Creator
     public ItemAlbum(String name, List<AlbumImage> images) {
       this.name = name;
       this.images = images;
@@ -81,12 +94,15 @@ public class SpotifySongItem {
       this.images = images;
     }
 
+    @Introspected
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class AlbumImage {
 
       private String url;
       private int width;
       private int height;
 
+      @Creator
       public AlbumImage(String url, int width, int height) {
         this.url = url;
         this.width = width;

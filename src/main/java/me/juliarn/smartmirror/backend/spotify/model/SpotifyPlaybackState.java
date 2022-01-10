@@ -2,6 +2,7 @@ package me.juliarn.smartmirror.backend.spotify.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import io.micronaut.core.annotation.Creator;
 import io.micronaut.core.annotation.Introspected;
 
 @Introspected
@@ -13,6 +14,7 @@ public class SpotifyPlaybackState {
   private boolean isPlaying;
   private SpotifySongItem item;
 
+  @Creator
   public SpotifyPlaybackState(
       SpotifyDevice device,
       Integer progressMs,

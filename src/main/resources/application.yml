@@ -2,7 +2,7 @@ micronaut :
   security :
     enabled : true
     reject-not-found : false
-    authentication : idtoken
+    authentication : cookie
     oauth2 :
       clients :
         spotify :

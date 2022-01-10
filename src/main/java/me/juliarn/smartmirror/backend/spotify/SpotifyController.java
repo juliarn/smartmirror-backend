@@ -1,6 +1,5 @@
 package me.juliarn.smartmirror.backend.spotify;
 
-import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
@@ -22,7 +21,7 @@ public class SpotifyController {
     this.spotifyApiClient = spotifyApiClient;
   }
 
-  @Get(value = "/playback", produces = MediaType.APPLICATION_JSON_STREAM)
+  @Get(value = "/playback")
   public Publisher<SpotifyPlaybackState> getPlaybackState(@NotNull Authentication authentication) {
     return this.spotifyApiClient.getPlayingState(
         "Bearer " + authentication.getAttributes().get("spotifyToken"));
