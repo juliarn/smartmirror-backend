@@ -6,8 +6,8 @@ micronaut :
     oauth2 :
       clients :
         spotify :
-          client-id : ${OAUTH_CLIENT_ID}
-          client-secret : ${OAUTH_CLIENT_SECRET}
+          client-id : ${SPOTIFY_OAUTH_CLIENT_ID}
+          client-secret : ${SPOTIFY_CLIENT_SECRET}
           scopes :
             - user-read-currently-playing
             - user-read-playback-state
@@ -16,5 +16,15 @@ micronaut :
           token :
             url : https://accounts.spotify.com/api/token
             auth-method : client-secret-post
+        mso :
+          client-id : ${MSO_OAUTH_CLIENT_ID}
+          client-secret : ${SPOTIFY_OAUTH_CLIENT_SECRET}
+          authorization :
+            url : https://marienschule.com/oauth/authorize
+          token :
+            url : https://marienschule.com/oauth/token
+            auth-method : client_secret_post
+          openid :
+            issuer : https://marienschule.com
   application :
     name : smartmirror-backend

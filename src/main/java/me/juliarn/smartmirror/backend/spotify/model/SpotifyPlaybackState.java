@@ -42,12 +42,12 @@ public class SpotifyPlaybackState {
     this.progressMs = progressMs;
   }
 
-  public boolean isPlaying() {
+  public boolean isIsPlaying() {
     return this.isPlaying;
   }
 
-  public void setPlaying(boolean playing) {
-    isPlaying = playing;
+  public void setIsPlaying(boolean playing) {
+    this.isPlaying = playing;
   }
 
   public SpotifySongItem getItem() {
