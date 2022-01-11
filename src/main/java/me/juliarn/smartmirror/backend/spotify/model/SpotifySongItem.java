@@ -12,12 +12,18 @@ public class SpotifySongItem {
 
   private String name;
   private List<ItemArtist> artists;
+  private ItemAlbum album;
   private Integer durationMs;
 
   @Creator
-  public SpotifySongItem(String name, List<ItemArtist> artists, Integer durationMs) {
+  public SpotifySongItem(
+      String name,
+      List<ItemArtist> artists,
+      ItemAlbum album,
+      Integer durationMs) {
     this.name = name;
     this.artists = artists;
+    this.album = album;
     this.durationMs = durationMs;
   }
 
@@ -35,6 +41,14 @@ public class SpotifySongItem {
 
   public void setArtists(List<ItemArtist> artists) {
     this.artists = artists;
+  }
+
+  public ItemAlbum getAlbum() {
+    return this.album;
+  }
+
+  public void setAlbum(ItemAlbum album) {
+    this.album = album;
   }
 
   public Integer getDurationMs() {
