@@ -40,11 +40,11 @@ public class SpotifyDevice {
     this.name = name;
   }
 
-  public boolean isActive() {
+  public boolean isIsActive() {
     return this.isActive;
   }
 
-  public void setActive(boolean active) {
+  public void setIsActive(boolean active) {
     isActive = active;
   }
 
