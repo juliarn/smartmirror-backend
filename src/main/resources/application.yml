@@ -28,3 +28,9 @@ micronaut :
             issuer : https://marienschule.com
   application :
     name : smartmirror-backend
+  router :
+    static-resources :
+      default :
+        paths : classpath:frontend
+        mapping : /**
+        enabled : true

@@ -43,9 +43,26 @@ dependencies {
 application {
     mainClass.set("me.juliarn.smartmirror.backend.SmartMirrorApplication")
 }
+
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
     targetCompatibility = JavaVersion.toVersion("17")
 }
 
 graalvmNative.toolchainDetection = false
+
+task includeReactBuild {
+    exec {
+        workingDir("${projectDir}/smartmirror-frontend/")
+        executable("npm")
+        args("run", "build")
+    }
+
+    delete("${buildDir}/resources/main/frontend")
+    copy {
+        from("${projectDir}/smartmirror-frontend/build")
+        into("${buildDir}/resources/main/frontend")
+    }
+}
+
+processResources.dependsOn("includeReactBuild")
