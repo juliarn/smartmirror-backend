@@ -1,0 +1,3 @@
+[submodule "smartmirror-frontend"]
+	path = smartmirror-frontend
+	url = https://github.com/juliarn/smartmirror-frontend
