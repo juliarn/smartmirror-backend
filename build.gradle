@@ -50,8 +50,10 @@ java {
     targetCompatibility = JavaVersion.toVersion("17")
 }
 
+var frontendDir = "${projectDir}/smartmirror-frontend/"
+
 node {
-    nodeProjectDir = file("${projectDir}/smartmirror-frontend/")
+    nodeProjectDir = file(frontendDir)
 }
 
 graalvmNative.toolchainDetection = false
@@ -63,10 +65,12 @@ task buildReactApp(type: NpmTask) {
 
 task includeReactBuild {
     dependsOn(buildReactApp)
-    delete("${buildDir}/resources/main/frontend")
-    copy {
-        from("${projectDir}/smartmirror-frontend/build")
-        into("${buildDir}/resources/main/frontend")
+    doLast {
+        delete("${buildDir}/resources/main/frontend")
+        copy {
+            from("${frontendDir}/build")
+            into("${buildDir}/resources/main/frontend")
+        }
     }
 }
 
