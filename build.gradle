@@ -1,6 +1,7 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.1"
     id("io.micronaut.application") version "3.1.1"
+    id("com.github.node-gradle.node") version "3.1.1"
 }
 
 version = "0.1"
@@ -49,15 +50,19 @@ java {
     targetCompatibility = JavaVersion.toVersion("17")
 }
 
+node {
+    nodeProjectDir = file("${projectDir}/smartmirror-frontend/")
+}
+
 graalvmNative.toolchainDetection = false
 
-task includeReactBuild {
-    exec {
-        workingDir("${projectDir}/smartmirror-frontend/")
-        executable("npm")
-        args("run", "build")
-    }
+task buildReactApp(type: NpmTask) {
+    dependsOn(npmInstall)
+    args = ["run", "build"]
+}
 
+task includeReactBuild {
+    dependsOn(buildReactApp)
     delete("${buildDir}/resources/main/frontend")
     copy {
         from("${projectDir}/smartmirror-frontend/build")
