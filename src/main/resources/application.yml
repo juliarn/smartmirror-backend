@@ -6,8 +6,8 @@ micronaut :
     oauth2 :
       clients :
         spotify :
-          client-id : ${SPOTIFY_OAUTH_CLIENT_ID}
-          client-secret : ${SPOTIFY_CLIENT_SECRET}
+          client-id : ${SPOTIFY_OAUTH_CLIENT_ID:""}
+          client-secret : ${SPOTIFY_CLIENT_SECRET:""}
           scopes :
             - user-read-currently-playing
             - user-read-playback-state
@@ -17,8 +17,8 @@ micronaut :
             url : https://accounts.spotify.com/api/token
             auth-method : client-secret-post
         mso :
-          client-id : ${MSO_OAUTH_CLIENT_ID}
-          client-secret : ${SPOTIFY_OAUTH_CLIENT_SECRET}
+          client-id : ${MSO_OAUTH_CLIENT_ID:""}
+          client-secret : ${SPOTIFY_OAUTH_CLIENT_SECRET:""}
           authorization :
             url : https://marienschule.com/oauth/authorize
           token :
@@ -34,3 +34,13 @@ micronaut :
         paths : classpath:frontend
         mapping : /**
         enabled : true
+datasources:
+  default:
+    url : ${JDBC_URL:`jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
+    username : ${JDBC_USER:root}
+    password : ${JDBC_PASSWORD:""}
+    driverClassName : ${JDBC_DRIVER:org.h2.Driver}
+flyway:
+  datasources:
+    default:
+      enabled: true
