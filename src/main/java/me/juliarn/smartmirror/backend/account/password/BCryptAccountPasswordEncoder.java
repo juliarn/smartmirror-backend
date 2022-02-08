@@ -1,5 +1,6 @@
 package me.juliarn.smartmirror.backend.account.password;
 
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import javax.validation.constraints.NotBlank;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,7 +9,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Singleton
 public class BCryptAccountPasswordEncoder implements AccountPasswordEncoder {
 
-  private final PasswordEncoder delegate = new BCryptPasswordEncoder();
+  private final PasswordEncoder delegate;
+
+  @Inject
+  BCryptAccountPasswordEncoder() {
+    this.delegate = new BCryptPasswordEncoder();
+  }
 
   @Override
   public String encode(@NotBlank String rawPassword) {

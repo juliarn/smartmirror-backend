@@ -16,7 +16,7 @@ public class DefaultAccountRepository implements AccountRepository {
   private final EntityManager entityManager;
 
   @Inject
-  public DefaultAccountRepository(EntityManager entityManager) {
+  DefaultAccountRepository(EntityManager entityManager) {
     this.entityManager = entityManager;
   }
 

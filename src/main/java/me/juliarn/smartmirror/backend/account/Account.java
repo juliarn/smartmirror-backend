@@ -1,12 +1,15 @@
 package me.juliarn.smartmirror.backend.account;
 
 import org.hibernate.annotations.GenericGenerator;
+import reactor.util.annotation.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
@@ -29,7 +32,7 @@ public class Account {
   @Column(nullable = false)
   private String firstName;
 
-  public Account(String username, String password, String firstName) {
+  Account(@NotBlank String username, @NotBlank String password, @NotBlank String firstName) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -38,35 +41,35 @@ public class Account {
   public Account() {
   }
 
-  public UUID getAccountId() {
+  public @NotNull UUID getAccountId() {
     return this.accountId;
   }
 
-  public void setAccountId(UUID accountId) {
+  public void setAccountId(@NotNull UUID accountId) {
     this.accountId = accountId;
   }
 
-  public String getUsername() {
+  public @NotBlank String getUsername() {
     return this.username;
   }
 
-  public void setUsername(String username) {
+  public void setUsername(@NotBlank String username) {
     this.username = username;
   }
 
-  public String getPassword() {
+  public @NotBlank String getPassword() {
     return this.password;
   }
 
-  public void setPassword(String password) {
+  public void setPassword(@NotBlank String password) {
     this.password = password;
   }
 
-  public String getFirstName() {
+  public @NotBlank String getFirstName() {
     return this.firstName;
   }
 
-  public void setFirstName(String firstName) {
+  public void setFirstName(@NotBlank String firstName) {
     this.firstName = firstName;
   }
 }
