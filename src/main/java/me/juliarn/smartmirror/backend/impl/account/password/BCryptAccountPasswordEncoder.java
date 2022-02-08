@@ -3,6 +3,8 @@ package me.juliarn.smartmirror.backend.account.password;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import javax.validation.constraints.NotBlank;
+
+import me.juliarn.smartmirror.backend.api.account.password.AccountPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

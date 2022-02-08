@@ -78,4 +78,4 @@ task includeReactBuild {
     }
 }
 
-processResources.dependsOn("includeReactBuild")
+processResources.dependsOn(includeReactBuild)

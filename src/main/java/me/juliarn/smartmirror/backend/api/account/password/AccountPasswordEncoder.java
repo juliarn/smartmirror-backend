@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror.backend.account.password;
+package me.juliarn.smartmirror.backend.api.account.password;
 
 import javax.validation.constraints.NotBlank;
 

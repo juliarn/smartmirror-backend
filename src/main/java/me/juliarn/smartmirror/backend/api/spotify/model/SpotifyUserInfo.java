@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror.backend.spotify.model;
+package me.juliarn.smartmirror.backend.api.spotify.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

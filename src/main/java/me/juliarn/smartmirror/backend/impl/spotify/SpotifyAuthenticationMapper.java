@@ -7,6 +7,8 @@ import io.micronaut.security.oauth2.endpoint.token.response.TokenResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import me.juliarn.smartmirror.backend.api.Roles;
+import me.juliarn.smartmirror.backend.api.spotify.SpotifyApiClient;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 
@@ -31,7 +33,7 @@ public class SpotifyAuthenticationMapper implements OauthAuthenticationMapper {
     return Flux.from(this.spotifyApiClient.getUserInfo("Bearer " + tokenResponse.getAccessToken()))
         .map(spotifyUserInfo -> AuthenticationResponse.success(
             spotifyUserInfo.getId(),
-            List.of("ROLE_SPOTIFY"),
+            List.of(Roles.SPOTIFY),
             Map.of(
                 "spotifyDisplayName", spotifyUserInfo.getDisplayName(),
                 "spotifyToken", tokenResponse.getAccessToken())));

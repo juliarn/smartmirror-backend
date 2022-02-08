@@ -1,10 +1,10 @@
-package me.juliarn.smartmirror.backend.spotify;
+package me.juliarn.smartmirror.backend.api.spotify;
 
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Header;
 import io.micronaut.http.client.annotation.Client;
-import me.juliarn.smartmirror.backend.spotify.model.SpotifyPlaybackState;
-import me.juliarn.smartmirror.backend.spotify.model.SpotifyUserInfo;
+import me.juliarn.smartmirror.backend.api.spotify.model.SpotifyPlaybackState;
+import me.juliarn.smartmirror.backend.api.spotify.model.SpotifyUserInfo;
 import org.reactivestreams.Publisher;
 
 @Header(name = "User-Agent", value = "SmartMirror-Backend")

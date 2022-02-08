@@ -5,7 +5,8 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
-import me.juliarn.smartmirror.backend.spotify.model.SpotifyPlaybackState;
+import me.juliarn.smartmirror.backend.api.spotify.SpotifyApiClient;
+import me.juliarn.smartmirror.backend.api.spotify.model.SpotifyPlaybackState;
 import org.reactivestreams.Publisher;
 
 import javax.validation.constraints.NotNull;
