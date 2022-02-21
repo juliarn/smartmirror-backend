@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror.backend.spotify;
+package me.juliarn.smartmirror.backend.impl.spotify;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;

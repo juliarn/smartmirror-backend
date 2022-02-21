@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror.backend.spotify;
+package me.juliarn.smartmirror.backend.impl.spotify;
 
 import io.micronaut.security.authentication.AuthenticationResponse;
 import io.micronaut.security.oauth2.endpoint.authorization.state.State;
@@ -32,10 +32,10 @@ public class SpotifyAuthenticationMapper implements OauthAuthenticationMapper {
       State state) {
     return Flux.from(this.spotifyApiClient.getUserInfo("Bearer " + tokenResponse.getAccessToken()))
         .map(spotifyUserInfo -> AuthenticationResponse.success(
-            spotifyUserInfo.getId(),
+            spotifyUserInfo.id(),
             List.of(Roles.SPOTIFY),
             Map.of(
-                "spotifyDisplayName", spotifyUserInfo.getDisplayName(),
+                "spotifyDisplayName", spotifyUserInfo.displayName(),
                 "spotifyToken", tokenResponse.getAccessToken())));
   }
 }

@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror.backend.account.password;
+package me.juliarn.smartmirror.backend.impl.account.password;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
