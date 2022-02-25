@@ -1,6 +1,6 @@
 micronaut :
   security :
-    enabled : true
+    enabled : false
     reject-not-found : false
     authentication : cookie
     oauth2 :
@@ -34,16 +34,28 @@ micronaut :
         paths : classpath:frontend
         mapping : /**
         enabled : true
+r2dbc :
+  datasources :
+    default :
+      url : ${JDBC_URL:`r2dbc:mysql://127.0.0.1:3306`}
+      username : ${JDBC_USER:root}
+      password : ${JDBC_PASSWORD:root}
+      schema-generate : CREATE_DROP
 datasources:
   default:
-    url : ${JDBC_URL:`jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
+    url : ${JDBC_URL:`jdbc:mysql://127.0.0.1:3306`}
     username : ${JDBC_USER:root}
-    password : ${JDBC_PASSWORD:""}
-    driverClassName : ${JDBC_DRIVER:org.h2.Driver}
-jpa:
-  default:
-    properties:
-      hibernate:
-        hbm2ddl:
-          auto: update
-        show_sql: true
+    password : ${JDBC_PASSWORD:root}
+    schema-generate : CREATE_DROP
+    driver-class-name : com.mysql.cj.jdbc.Driver
+jpa :
+  default :
+    properties :
+      hibernate :
+        hbm2ddl :
+          auto : update
+        show_sql : true
+smartmirror :
+  services :
+    openweathermap :
+      token : ${OPEN_WEATHER_MAP_TOKEN:""}

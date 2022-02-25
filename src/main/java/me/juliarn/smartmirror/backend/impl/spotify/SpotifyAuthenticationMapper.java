@@ -30,12 +30,12 @@ public class SpotifyAuthenticationMapper implements OauthAuthenticationMapper {
   public Publisher<AuthenticationResponse> createAuthenticationResponse(
       TokenResponse tokenResponse,
       State state) {
-    return Flux.from(this.spotifyApiClient.getUserInfo("Bearer " + tokenResponse.getAccessToken()))
+    return this.spotifyApiClient.getUserInfo("Bearer " + tokenResponse.getAccessToken())
         .map(spotifyUserInfo -> AuthenticationResponse.success(
-            spotifyUserInfo.id(),
+            spotifyUserInfo.getId(),
             List.of(Roles.SPOTIFY),
             Map.of(
-                "spotifyDisplayName", spotifyUserInfo.displayName(),
+                "spotifyDisplayName", spotifyUserInfo.getDisplayName(),
                 "spotifyToken", tokenResponse.getAccessToken())));
   }
 }

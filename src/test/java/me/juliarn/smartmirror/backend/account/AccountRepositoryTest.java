@@ -15,16 +15,17 @@ public class AccountRepositoryTest {
 
   @Test
   public void testAccountRepository() {
-    Account account = this.accountRepository.save(new Account("root", "root", "root"));
+    Account account = this.accountRepository.save(new Account("root", "root", "root")).block();
+    Assertions.assertNotNull(account);
     Assertions.assertNotNull(account.getAccountId());
 
-    Account accountByName = this.accountRepository.findByAccountName("root").orElse(null);
+    Account accountByName = this.accountRepository.findByAccountName("root").block();
     Assertions.assertNotNull(accountByName);
 
-    Account wrongAccountByName = this.accountRepository.findByAccountName("admin").orElse(null);
+    Account wrongAccountByName = this.accountRepository.findByAccountName("admin").block();
     Assertions.assertNull(wrongAccountByName);
 
-    Account accountById = this.accountRepository.findById(account.getAccountId()).orElse(null);
+    Account accountById = this.accountRepository.findById(account.getAccountId()).block();
     Assertions.assertNotNull(accountById);
   }
 }

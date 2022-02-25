@@ -10,7 +10,6 @@ import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.account.AccountRepository;
 import me.juliarn.smartmirror.backend.api.account.password.AccountPasswordEncoder;
 import org.reactivestreams.Publisher;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -28,21 +27,18 @@ public record AccountAuthenticationProvider(
   public Publisher<AuthenticationResponse> authenticate(
       HttpRequest<?> httpRequest,
       AuthenticationRequest<?, ?> authenticationRequest) {
-    return Mono.create(emitter ->
-        this.accountRepository.findByAccountName(authenticationRequest.getIdentity().toString())
-            .ifPresentOrElse(
-                account -> {
-                  if (this.passwordEncoder.matches(
-                      authenticationRequest.getSecret().toString(),
-                      account.getPassword())) {
-                    emitter.success(AuthenticationResponse.success(
-                        account.getAccountName(),
-                        List.of(Roles.ACCOUNT),
-                        Map.of("account", account)));
-                  } else {
-                    emitter.error(AuthenticationResponse.exception("Invalid credentials"));
-                  }
-                },
-                () -> emitter.error(AuthenticationResponse.exception("Account not found"))));
+    return this.accountRepository.findByAccountName(authenticationRequest.getIdentity().toString())
+        .handle((account, sink) -> {
+          if (this.passwordEncoder.matches(
+              authenticationRequest.getSecret().toString(),
+              account.getPassword())) {
+            sink.next(AuthenticationResponse.success(
+                account.getAccountName(),
+                List.of(Roles.ACCOUNT),
+                Map.of("account", account)));
+          } else {
+            sink.error(AuthenticationResponse.exception("Invalid credentials"));
+          }
+        });
   }
 }

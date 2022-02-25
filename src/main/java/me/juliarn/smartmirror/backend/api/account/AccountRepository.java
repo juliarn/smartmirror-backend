@@ -1,13 +1,24 @@
 package me.juliarn.smartmirror.backend.api.account;
 
-import io.micronaut.data.jdbc.annotation.JdbcRepository;
-import io.micronaut.data.repository.CrudRepository;
-import java.util.Optional;
-import java.util.UUID;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.data.r2dbc.annotation.R2dbcRepository;
+import io.micronaut.data.repository.reactive.ReactiveStreamsCrudRepository;
+import reactor.core.publisher.Mono;
+
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
-@JdbcRepository
-public interface AccountRepository extends CrudRepository<Account, UUID> {
+@R2dbcRepository
+public interface AccountRepository extends ReactiveStreamsCrudRepository<Account, UUID> {
 
-  Optional<Account> findByAccountName(@NotBlank String accountName);
+  @Override
+  @NonNull
+  Mono<Account> save(@NonNull Account account);
+
+  @Override
+  @NonNull
+  Mono<Account> findById(@NonNull UUID id);
+
+  @NonNull
+  Mono<Account> findByAccountName(@NotBlank String accountName);
 }
