@@ -37,7 +37,7 @@ micronaut :
 r2dbc :
   datasources :
     default :
-      url : ${R2DBC_URL:`r2dbc:mysql://127.0.0.1:3306/smartmirror`}
+      url : ${R2DBC_URL:`r2dbc:h2:mem:///smartmirror;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
       username : ${JDBC_USER:root}
       password : ${JDBC_PASSWORD:}
       schema-generate : create_drop
