@@ -9,25 +9,11 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import io.micronaut.data.repository.reactive.ReactorCrudRepository;
 import reactor.core.publisher.Mono;
 
 @R2dbcRepository(dialect = Dialect.MYSQL)
-public interface AccountRepository extends ReactiveStreamsCrudRepository<Account, UUID> {
-
-  @Override
-  @NonNull
-  @SingleResult
-  Mono<Account> save(@Valid @NotNull @NonNull Account entity);
-
-  @Override
-  @NonNull
-  @SingleResult
-  Mono<Long> delete(@NonNull @NotNull Account account);
-
-  @Override
-  @NonNull
-  @SingleResult
-  Mono<Account> findById(@NotNull @NonNull UUID id);
+public interface AccountRepository extends ReactorCrudRepository<Account, UUID> {
 
   @NonNull
   @SingleResult
