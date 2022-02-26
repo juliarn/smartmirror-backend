@@ -20,7 +20,7 @@ public class AccountRepositoryTest {
 
     Account account = this.accountRepository.save(new Account("root", "root", "root")).block();
     Assertions.assertNotNull(account);
-    Assertions.assertNotNull(account.getAccountId());
+    Assertions.assertNotNull(account.accountId());
 
     Account accountByName = this.accountRepository.findByAccountName("root").block();
     Assertions.assertNotNull(accountByName);
@@ -28,7 +28,7 @@ public class AccountRepositoryTest {
     Account wrongAccountByName = this.accountRepository.findByAccountName("admin").block();
     Assertions.assertNull(wrongAccountByName);
 
-    Account accountById = this.accountRepository.findById(account.getAccountId()).block();
+    Account accountById = this.accountRepository.findById(account.accountId()).block();
     Assertions.assertNotNull(accountById);
 
     this.accountRepository.delete(account).block();

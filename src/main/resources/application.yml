@@ -18,7 +18,7 @@ micronaut :
             auth-method : client-secret-post
         mso :
           client-id : ${MSO_OAUTH_CLIENT_ID:""}
-          client-secret : ${SPOTIFY_OAUTH_CLIENT_SECRET:""}
+          client-secret : ${MSO_OAUTH_CLIENT_SECRET:""}
           authorization :
             url : https://marienschule.com/oauth/authorize
           token :
@@ -37,10 +37,10 @@ micronaut :
 r2dbc :
   datasources :
     default :
-      url : ${R2DBC_URL:`r2dbc:h2:mem:///smartmirror;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
+      url : ${JDBC_URL:`r2dbc:h2:mem:///smartmirror;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
       username : ${JDBC_USER:root}
       password : ${JDBC_PASSWORD:}
-      schema-generate : create_drop
+      schema-generate : ${JDBC_SCHEMA_GENERATE:create_drop}
       dialect : ${JDBC_DIALECT:mysql}
 smartmirror :
   services :

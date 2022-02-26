@@ -10,7 +10,6 @@ import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.account.AccountRepository;
 import me.juliarn.smartmirror.backend.api.account.password.AccountPasswordEncoder;
 import org.reactivestreams.Publisher;
-
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +30,9 @@ public record AccountAuthenticationProvider(
         .handle((account, sink) -> {
           if (this.passwordEncoder.matches(
               authenticationRequest.getSecret().toString(),
-              account.getPassword())) {
+              account.password())) {
             sink.next(AuthenticationResponse.success(
-                account.getAccountName(),
+                account.accountName(),
                 List.of(Roles.ACCOUNT),
                 Map.of("account", account)));
           } else {

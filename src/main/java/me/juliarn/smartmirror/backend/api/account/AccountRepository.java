@@ -20,14 +20,16 @@ public interface AccountRepository extends ReactiveStreamsCrudRepository<Account
   Mono<Account> save(@Valid @NotNull @NonNull Account entity);
 
   @Override
-  @SingleResult
   @NonNull
+  @SingleResult
   Mono<Long> delete(@NonNull @NotNull Account account);
 
   @Override
   @NonNull
-  Mono<Account> findById(@NonNull UUID id);
+  @SingleResult
+  Mono<Account> findById(@NotNull @NonNull UUID id);
 
   @NonNull
+  @SingleResult
   Mono<Account> findByAccountName(@NotBlank String accountName);
 }
