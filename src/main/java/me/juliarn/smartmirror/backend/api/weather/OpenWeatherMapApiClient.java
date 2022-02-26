@@ -6,7 +6,6 @@ import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.client.annotation.Client;
 import me.juliarn.smartmirror.backend.api.weather.model.WeatherForecast;
 import me.juliarn.smartmirror.backend.api.weather.model.WeatherState;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
 
 @Header(name = "User-Agent", value = "SmartMirror-Backend")

@@ -1,29 +1,18 @@
 package me.juliarn.smartmirror.backend.api.account;
 
+import io.micronaut.data.annotation.AutoPopulated;
+import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.MappedEntity;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import org.hibernate.annotations.GenericGenerator;
 
-@Entity(name = "account")
+@MappedEntity(value = "account")
 public class Account {
 
   @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(
-      name = "UUID",
-      strategy = "org.hibernate.id.UUIDGenerator")
+  @AutoPopulated
   private UUID accountId;
-
-  @Column(nullable = false)
   private String accountName;
-
-  @Column(nullable = false)
   private String password;
-
-  @Column(nullable = false)
   private String firstName;
 
   public Account(String accountName, String password, String firstName) {

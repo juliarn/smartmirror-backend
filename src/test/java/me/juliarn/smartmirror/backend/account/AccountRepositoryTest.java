@@ -6,6 +6,7 @@ import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.account.AccountRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Mono;
 
 @MicronautTest
 public class AccountRepositoryTest {
@@ -15,6 +16,8 @@ public class AccountRepositoryTest {
 
   @Test
   public void testAccountRepository() {
+    Long countBefore = Mono.from(this.accountRepository.count()).block();
+
     Account account = this.accountRepository.save(new Account("root", "root", "root")).block();
     Assertions.assertNotNull(account);
     Assertions.assertNotNull(account.getAccountId());
@@ -27,5 +30,10 @@ public class AccountRepositoryTest {
 
     Account accountById = this.accountRepository.findById(account.getAccountId()).block();
     Assertions.assertNotNull(accountById);
+
+    this.accountRepository.delete(account).block();
+
+    Long count = Mono.from(this.accountRepository.count()).block();
+    Assertions.assertEquals(countBefore, count);
   }
 }

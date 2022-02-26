@@ -37,24 +37,11 @@ micronaut :
 r2dbc :
   datasources :
     default :
-      url : ${JDBC_URL:`r2dbc:mysql://127.0.0.1:3306`}
+      url : ${R2DBC_URL:`r2dbc:mysql://127.0.0.1:3306/smartmirror`}
       username : ${JDBC_USER:root}
-      password : ${JDBC_PASSWORD:root}
-      schema-generate : CREATE_DROP
-datasources:
-  default:
-    url : ${JDBC_URL:`jdbc:mysql://127.0.0.1:3306`}
-    username : ${JDBC_USER:root}
-    password : ${JDBC_PASSWORD:root}
-    schema-generate : CREATE_DROP
-    driver-class-name : com.mysql.cj.jdbc.Driver
-jpa :
-  default :
-    properties :
-      hibernate :
-        hbm2ddl :
-          auto : update
-        show_sql : true
+      password : ${JDBC_PASSWORD:}
+      schema-generate : create_drop
+      dialect : ${JDBC_DIALECT:mysql}
 smartmirror :
   services :
     openweathermap :
