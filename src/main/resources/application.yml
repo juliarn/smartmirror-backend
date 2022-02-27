@@ -1,8 +1,29 @@
 micronaut :
+  application :
+    name : smartmirror-backend
+  router :
+    static-resources :
+      default :
+        paths : classpath:frontend
+        mapping : /**
+        enabled : true
   security :
-    enabled : false
     reject-not-found : false
     authentication : cookie
+    endpoints :
+      login :
+        path : api/account/login
+      logout :
+        path : api/account/logout
+        get-allowed : true
+    redirect :
+      enabled : false
+    token :
+      jwt :
+        signatures :
+          secret :
+            generator :
+              secret : ${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}
     oauth2 :
       clients :
         spotify :
@@ -26,14 +47,6 @@ micronaut :
             auth-method : client_secret_post
           openid :
             issuer : https://marienschule.com
-  application :
-    name : smartmirror-backend
-  router :
-    static-resources :
-      default :
-        paths : classpath:frontend
-        mapping : /**
-        enabled : true
 r2dbc :
   datasources :
     default :

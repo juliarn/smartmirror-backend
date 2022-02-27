@@ -22,10 +22,10 @@ public class AccountRepositoryTest {
     Assertions.assertNotNull(account);
     Assertions.assertNotNull(account.accountId());
 
-    Account accountByName = this.accountRepository.findByAccountName("root").block();
+    Account accountByName = this.accountRepository.findByAccountNameIlike("rooT").block();
     Assertions.assertNotNull(accountByName);
 
-    Account wrongAccountByName = this.accountRepository.findByAccountName("admin").block();
+    Account wrongAccountByName = this.accountRepository.findByAccountNameIlike("admin").block();
     Assertions.assertNull(wrongAccountByName);
 
     Account accountById = this.accountRepository.findById(account.accountId()).block();

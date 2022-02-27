@@ -20,4 +20,8 @@ public record Account(
       @NonNull String firstName) {
     this(null, accountName, password, firstName);
   }
+
+  public Account(@Nullable UUID accountId) {
+    this(accountId, "", "", "");
+  }
 }

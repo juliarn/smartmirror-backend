@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror.backend.impl.mso;
+package me.juliarn.smartmirror.backend.impl.services.mso;
 
 import io.micronaut.security.authentication.AuthenticationResponse;
 import io.micronaut.security.oauth2.endpoint.authorization.state.State;

@@ -1,17 +1,16 @@
-package me.juliarn.smartmirror.backend.impl.spotify;
+package me.juliarn.smartmirror.backend.impl.services.spotify;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
-import me.juliarn.smartmirror.backend.api.spotify.SpotifyApiClient;
-import me.juliarn.smartmirror.backend.api.spotify.model.SpotifyPlaybackState;
-import org.reactivestreams.Publisher;
-
 import javax.validation.constraints.NotNull;
+import me.juliarn.smartmirror.backend.api.services.spotify.SpotifyApiClient;
+import me.juliarn.smartmirror.backend.api.services.spotify.model.SpotifyPlaybackState;
+import reactor.core.publisher.Mono;
 
-@Controller("/api/spotify")
+@Controller("/api/services/spotify")
 @Secured("ROLE_SPOTIFY")
 public class SpotifyController {
 
@@ -23,7 +22,7 @@ public class SpotifyController {
   }
 
   @Get(value = "/playback")
-  public Publisher<SpotifyPlaybackState> getPlaybackState(@NotNull Authentication authentication) {
+  Mono<SpotifyPlaybackState> getPlaybackState(@NotNull Authentication authentication) {
     return this.spotifyApiClient.getPlayingState(
         "Bearer " + authentication.getAttributes().get("spotifyToken"));
   }

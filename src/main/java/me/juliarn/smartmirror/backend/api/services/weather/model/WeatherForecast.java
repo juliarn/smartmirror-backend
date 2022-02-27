@@ -1,10 +1,9 @@
-package me.juliarn.smartmirror.backend.api.weather.model;
+package me.juliarn.smartmirror.backend.api.services.weather.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.micronaut.core.annotation.Creator;
 import io.micronaut.core.annotation.Introspected;
-import java.util.Arrays;
 
 @Introspected
 @JsonNaming(SnakeCaseStrategy.class)

@@ -2,9 +2,9 @@ package me.juliarn.smartmirror.backend.weather;
 
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
-import me.juliarn.smartmirror.backend.api.weather.OpenWeatherMapApiClient;
-import me.juliarn.smartmirror.backend.api.weather.model.WeatherForecast;
-import me.juliarn.smartmirror.backend.api.weather.model.WeatherState;
+import me.juliarn.smartmirror.backend.api.services.weather.OpenWeatherMapApiClient;
+import me.juliarn.smartmirror.backend.api.services.weather.model.WeatherForecast;
+import me.juliarn.smartmirror.backend.api.services.weather.model.WeatherState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

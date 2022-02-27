@@ -6,38 +6,42 @@ import io.micronaut.security.authentication.AuthenticationRequest;
 import io.micronaut.security.authentication.AuthenticationResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.util.List;
 import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.account.AccountRepository;
 import me.juliarn.smartmirror.backend.api.account.password.AccountPasswordEncoder;
 import org.reactivestreams.Publisher;
-import java.util.List;
-import java.util.Map;
 
 @Singleton
-public record AccountAuthenticationProvider(
-    AccountRepository accountRepository,
-    AccountPasswordEncoder passwordEncoder) implements AuthenticationProvider {
+public class AccountAuthenticationProvider implements AuthenticationProvider {
+
+  private final AccountRepository accountRepository;
+  private final AccountPasswordEncoder passwordEncoder;
 
   @Inject
-  public AccountAuthenticationProvider {
+  public AccountAuthenticationProvider(
+      AccountRepository accountRepository,
+      AccountPasswordEncoder passwordEncoder) {
+    this.accountRepository = accountRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
   public Publisher<AuthenticationResponse> authenticate(
       HttpRequest<?> httpRequest,
       AuthenticationRequest<?, ?> authenticationRequest) {
-    return this.accountRepository.findByAccountName(authenticationRequest.getIdentity().toString())
-        .handle((account, sink) -> {
+    return this.accountRepository.findByAccountNameIlike(
+            authenticationRequest.getIdentity().toString()).flux().map(account -> {
           if (this.passwordEncoder.matches(
               authenticationRequest.getSecret().toString(),
               account.password())) {
-            sink.next(AuthenticationResponse.success(
-                account.accountName(),
-                List.of(Roles.ACCOUNT),
-                Map.of("account", account)));
+            return AuthenticationResponse.success(
+                String.valueOf(account.accountId()),
+                List.of(Roles.ACCOUNT));
           } else {
-            sink.error(AuthenticationResponse.exception("Invalid credentials"));
+            return AuthenticationResponse.failure("Invalid credentials");
           }
-        });
+        })
+        .defaultIfEmpty(AuthenticationResponse.failure("Account does not exist"));
   }
 }

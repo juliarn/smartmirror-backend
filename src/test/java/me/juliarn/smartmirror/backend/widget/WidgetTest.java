@@ -54,7 +54,7 @@ public class WidgetTest {
     Assertions.assertEquals(weatherWidget.defaultSettings().size(), settings.size());
 
     Collection<WidgetSetting> byAccountSettings = this.widgetSettingRepository.findByIdAccount(
-            account)
+            new Account(account.accountId()))
         .collectList()
         .block();
     Assertions.assertNotNull(byAccountSettings);

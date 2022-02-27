@@ -34,6 +34,8 @@ dependencies {
     implementation("jakarta.annotation:jakarta.annotation-api")
     implementation("org.apache.logging.log4j:log4j-core:2.17.0")
     implementation("org.springframework.security:spring-security-crypto:5.6.1")
+    implementation("org.bouncycastle:bcpkix-jdk15on:1.69")
+    implementation("commons-logging:commons-logging:1.2")
     runtimeOnly("dev.miku:r2dbc-mysql")
     runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("mysql:mysql-connector-java")
@@ -60,7 +62,7 @@ node {
 
 graalvmNative.toolchainDetection = false
 
-task buildReactApp(type: NpmTask) {
+/*task buildReactApp(type: NpmTask) {
     dependsOn(npmInstall)
     args = ["run", "build"]
 }
@@ -76,4 +78,4 @@ task includeReactBuild {
     }
 }
 
-processResources.dependsOn(includeReactBuild)
+processResources.dependsOn(includeReactBuild)*/
