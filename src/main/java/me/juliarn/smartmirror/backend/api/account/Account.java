@@ -21,7 +21,7 @@ public record Account(
     this(null, accountName, password, firstName);
   }
 
-  public Account(@Nullable UUID accountId) {
+  public Account(@NonNull UUID accountId) {
     this(accountId, "", "", "");
   }
 }

@@ -38,6 +38,7 @@ public class WidgetTest {
   void testWidgetSettingRepository() {
     Account account = this.accountRepository.save(new Account("root", "root", "root")).block();
     Assertions.assertNotNull(account);
+    Assertions.assertNotNull(account.accountId());
 
     Widget weatherWidget = this.widgetRegistry.get("weather");
     Assertions.assertNotNull(weatherWidget);
