@@ -1,8 +1,12 @@
 package me.juliarn.smartmirror.backend.impl.widget;
 
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.PathVariable;
+import io.micronaut.http.annotation.Post;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
@@ -11,14 +15,18 @@ import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.widget.Widget;
 import me.juliarn.smartmirror.backend.api.widget.WidgetRegistry;
 import me.juliarn.smartmirror.backend.api.widget.position.WidgetPosition;
+import me.juliarn.smartmirror.backend.api.widget.position.WidgetPosition.PositionArea;
 import me.juliarn.smartmirror.backend.api.widget.position.WidgetPositionRepository;
+import me.juliarn.smartmirror.backend.api.widget.setting.DefaultWidgetSetting;
 import me.juliarn.smartmirror.backend.api.widget.setting.WidgetSetting;
 import me.juliarn.smartmirror.backend.api.widget.setting.WidgetSettingRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller("api/widgets/")
@@ -67,6 +75,23 @@ public class WidgetController {
                 widgetPosition.y()));
   }
 
+  @Post("/positions/update/{widgetName}")
+  Mono<MutableHttpResponse<Object>> updatePosition(
+      @NonNull Authentication authentication,
+      @PathVariable @NotBlank String widgetName,
+      @NonNull PositionArea area,
+      float x,
+      float y) {
+    UUID accountId = UUID.fromString(authentication.getName());
+    Account account = new Account(accountId);
+
+    return Mono.just(widgetName).mapNotNull(this.widgetRegistry::get)
+        .flatMap(widget -> this.widgetPositionRepository.save(
+            WidgetPosition.create(account, widget, area, x, y)))
+        .map(widgetPosition -> HttpResponse.ok())
+        .defaultIfEmpty(HttpResponse.badRequest("Invalid widget supplied"));
+  }
+
   @Get("/settings")
   Mono<?> getSettings(@NonNull Authentication authentication) {
     UUID accountId = UUID.fromString(authentication.getName());
@@ -87,5 +112,36 @@ public class WidgetController {
                 widgetSetting.id().settingName(),
                 "value",
                 String.valueOf(widgetSetting.value())));
+  }
+
+  @Post("/settings/update/{widgetName}")
+  Mono<MutableHttpResponse<?>> updateSetting(
+      @NonNull Authentication authentication,
+      @PathVariable @NotBlank String widgetName,
+      @NotBlank String settingName,
+      @NonNull String value) {
+    UUID accountId = UUID.fromString(authentication.getName());
+    Account account = new Account(accountId);
+
+    return Mono.just(widgetName).mapNotNull(this.widgetRegistry::get)
+        .flatMap(widget -> {
+          Optional<DefaultWidgetSetting> defaultSetting = widget.defaultSettings().stream()
+              .filter(setting -> setting.settingName().equals(settingName))
+              .findFirst();
+
+          if (defaultSetting.isPresent()) {
+            Collection<String> acceptedValues = defaultSetting.get().acceptedValues();
+            if (acceptedValues != null && !acceptedValues.contains(value)) {
+              return Mono.just(HttpResponse.badRequest("Illegal value supplied"));
+            }
+
+            return this.widgetSettingRepository.save(
+                    WidgetSetting.create(account, widget, settingName, value))
+                .map(widgetSetting -> HttpResponse.ok());
+          } else {
+            return Mono.just(HttpResponse.badRequest("Invalid setting name supplied"));
+          }
+        })
+        .defaultIfEmpty(HttpResponse.badRequest("Invalid widget supplied"));
   }
 }

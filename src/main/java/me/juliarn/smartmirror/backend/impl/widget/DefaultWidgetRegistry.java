@@ -23,7 +23,8 @@ public class DefaultWidgetRegistry implements WidgetRegistry {
 
     this.register(new Widget("weather", Set.of(
         new DefaultWidgetSetting("language", "en"),
-        new DefaultWidgetSetting("tempUnit", "metric"))));
+        new DefaultWidgetSetting("tempUnit", "metric")),
+        false));
   }
 
   @Override

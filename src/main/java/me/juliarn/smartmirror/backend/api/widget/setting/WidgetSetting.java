@@ -7,7 +7,7 @@ import io.micronaut.data.annotation.MappedEntity;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.widget.Widget;
 
-@MappedEntity(value = "widget_setting")
+@MappedEntity("widget_setting")
 public record WidgetSetting(
     @EmbeddedId @NonNull WidgetSettingId id,
     @Nullable String value) {
@@ -19,5 +19,15 @@ public record WidgetSetting(
     return new WidgetSetting(
         new WidgetSettingId(account, widget, defaultSetting.settingName()),
         defaultSetting.defaultValue());
+  }
+
+  public static WidgetSetting create(
+      @NonNull Account account,
+      @NonNull Widget widget,
+      @NonNull String settingName,
+      @NonNull String value) {
+    return new WidgetSetting(
+        new WidgetSettingId(account, widget, settingName),
+        value);
   }
 }

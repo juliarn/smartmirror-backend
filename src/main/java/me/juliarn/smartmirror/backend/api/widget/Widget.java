@@ -11,7 +11,8 @@ import me.juliarn.smartmirror.backend.api.widget.setting.DefaultWidgetSetting;
 @Introspected
 @TypeDef(type = DataType.STRING, converter = WidgetAttributeConverter.class)
 public record Widget(@NonNull String name,
-                     @NonNull Collection<DefaultWidgetSetting> defaultSettings) {
+                     @NonNull Collection<DefaultWidgetSetting> defaultSettings,
+                     boolean requiresServiceAuth) {
 
   @Creator
   public Widget {
