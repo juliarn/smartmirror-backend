@@ -7,9 +7,15 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.hateoas.JsonError;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import javax.validation.constraints.NotBlank;
 import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.widget.Widget;
@@ -22,12 +28,6 @@ import me.juliarn.smartmirror.backend.api.widget.setting.WidgetSetting;
 import me.juliarn.smartmirror.backend.api.widget.setting.WidgetSettingRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import javax.validation.constraints.NotBlank;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller("api/widgets/")
 @Secured(Roles.ACCOUNT)
@@ -89,7 +89,7 @@ public class WidgetController {
         .flatMap(widget -> this.widgetPositionRepository.save(
             WidgetPosition.create(account, widget, area, x, y)))
         .map(widgetPosition -> HttpResponse.ok())
-        .defaultIfEmpty(HttpResponse.badRequest("Invalid widget supplied"));
+        .defaultIfEmpty(HttpResponse.badRequest(new JsonError("Invalid widget supplied")));
   }
 
   @Get("/settings")
@@ -132,16 +132,17 @@ public class WidgetController {
           if (defaultSetting.isPresent()) {
             Collection<String> acceptedValues = defaultSetting.get().acceptedValues();
             if (acceptedValues != null && !acceptedValues.contains(value)) {
-              return Mono.just(HttpResponse.badRequest("Illegal value supplied"));
+              return Mono.just(HttpResponse.badRequest(new JsonError("Illegal value supplied")));
             }
 
             return this.widgetSettingRepository.save(
                     WidgetSetting.create(account, widget, settingName, value))
                 .map(widgetSetting -> HttpResponse.ok());
           } else {
-            return Mono.just(HttpResponse.badRequest("Invalid setting name supplied"));
+            return Mono.just(
+                HttpResponse.badRequest(new JsonError("Invalid setting name supplied")));
           }
         })
-        .defaultIfEmpty(HttpResponse.badRequest("Invalid widget supplied"));
+        .defaultIfEmpty(HttpResponse.badRequest(new JsonError("Invalid widget supplied")));
   }
 }

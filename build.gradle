@@ -62,7 +62,7 @@ node {
 
 graalvmNative.toolchainDetection = false
 
-/*task buildReactApp(type: NpmTask) {
+task buildReactApp(type: NpmTask) {
     dependsOn(npmInstall)
     args = ["run", "build"]
 }
@@ -78,4 +78,4 @@ task includeReactBuild {
     }
 }
 
-processResources.dependsOn(includeReactBuild)*/
+processResources.dependsOn(includeReactBuild)

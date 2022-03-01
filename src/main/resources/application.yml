@@ -47,6 +47,7 @@ micronaut :
             auth-method : client_secret_post
           openid :
             issuer : https://marienschule.com
+      callback-uri : /api/services/auth/{/provider}/callback
 r2dbc :
   datasources :
     default :
