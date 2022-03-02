@@ -108,7 +108,7 @@ public class WidgetController {
         .collectMultimap(
             widgetSetting -> widgetSetting.id().widget().name(),
             widgetSetting -> Map.of(
-                "name",
+                "settingName",
                 widgetSetting.id().settingName(),
                 "value",
                 String.valueOf(widgetSetting.value())));
