@@ -54,7 +54,7 @@ java {
     targetCompatibility = JavaVersion.toVersion("17")
 }
 
-var frontendDir = "${projectDir}/smartmirror-frontend/"
+var frontendDir = "${projectDir}/smartmirror-frontend/" as Object
 
 node {
     nodeProjectDir = file(frontendDir)
@@ -77,5 +77,3 @@ task includeReactBuild {
         }
     }
 }
-
-processResources.dependsOn(includeReactBuild)

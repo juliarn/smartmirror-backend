@@ -1,6 +1,13 @@
 micronaut :
   application :
     name : smartmirror-backend
+  server :
+    cors :
+      enabled : true
+      configurations :
+        web :
+          allowedOrigins :
+            - http://localhost:3000
   router :
     static-resources :
       default :
