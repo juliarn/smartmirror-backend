@@ -66,17 +66,11 @@ public class WidgetController {
         // Collect in a multimap, creating a user-friendly data structure
         .collectMap(
             widgetPosition -> widgetPosition.id().widget().name(),
-            widgetPosition -> Map.of(
-                "area",
-                widgetPosition.area(),
-                "x",
-                widgetPosition.x(),
-                "y",
-                widgetPosition.y()));
+            this::positionToResponse);
   }
 
   @Post("/positions/update/{widgetName}")
-  Mono<MutableHttpResponse<Object>> updatePosition(
+  Mono<MutableHttpResponse<?>> updatePosition(
       @NonNull Authentication authentication,
       @PathVariable @NotBlank String widgetName,
       @NonNull PositionArea area,
@@ -88,8 +82,19 @@ public class WidgetController {
     return Mono.just(widgetName).mapNotNull(this.widgetRegistry::get)
         .flatMap(widget -> this.widgetPositionRepository.save(
             WidgetPosition.create(account, widget, area, x, y)))
-        .map(widgetPosition -> HttpResponse.ok())
+        .<MutableHttpResponse<?>>map(
+            widgetPosition -> HttpResponse.ok(this.positionToResponse(widgetPosition)))
         .defaultIfEmpty(HttpResponse.badRequest(new JsonError("Invalid widget supplied")));
+  }
+
+  private Map<String, Object> positionToResponse(WidgetPosition widgetPosition) {
+    return Map.of(
+        "area",
+        widgetPosition.area(),
+        "x",
+        widgetPosition.x(),
+        "y",
+        widgetPosition.y());
   }
 
   @Get("/settings")
@@ -107,11 +112,7 @@ public class WidgetController {
         // Collect in a multimap, creating a user-friendly data structure
         .collectMultimap(
             widgetSetting -> widgetSetting.id().widget().name(),
-            widgetSetting -> Map.of(
-                "settingName",
-                widgetSetting.id().settingName(),
-                "value",
-                String.valueOf(widgetSetting.value())));
+            this::settingToResponse);
   }
 
   @Post("/settings/update/{widgetName}")
@@ -137,12 +138,20 @@ public class WidgetController {
 
             return this.widgetSettingRepository.save(
                     WidgetSetting.create(account, widget, settingName, value))
-                .map(widgetSetting -> HttpResponse.ok());
+                .map(widgetSetting -> HttpResponse.ok(this.settingToResponse(widgetSetting)));
           } else {
             return Mono.just(
                 HttpResponse.badRequest(new JsonError("Invalid setting name supplied")));
           }
         })
         .defaultIfEmpty(HttpResponse.badRequest(new JsonError("Invalid widget supplied")));
+  }
+
+  private Map<String, Object> settingToResponse(WidgetSetting widgetSetting) {
+    return Map.of(
+        "settingName",
+        widgetSetting.id().settingName(),
+        "value",
+        String.valueOf(widgetSetting.value()));
   }
 }
