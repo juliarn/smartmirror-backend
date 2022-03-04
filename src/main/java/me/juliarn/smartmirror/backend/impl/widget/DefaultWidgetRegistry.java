@@ -4,13 +4,14 @@ import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import me.juliarn.smartmirror.backend.api.widget.Widget;
+import me.juliarn.smartmirror.backend.api.widget.WidgetRegistry;
+import me.juliarn.smartmirror.backend.api.widget.setting.DefaultWidgetSetting;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import me.juliarn.smartmirror.backend.api.widget.Widget;
-import me.juliarn.smartmirror.backend.api.widget.WidgetRegistry;
-import me.juliarn.smartmirror.backend.api.widget.setting.DefaultWidgetSetting;
 
 @Singleton
 public class DefaultWidgetRegistry implements WidgetRegistry {
@@ -21,9 +22,13 @@ public class DefaultWidgetRegistry implements WidgetRegistry {
   DefaultWidgetRegistry() {
     this.widgets = new HashMap<>();
 
-    this.register(new Widget("weather", Set.of(
-        new DefaultWidgetSetting("language", "en"),
-        new DefaultWidgetSetting("tempUnit", "metric")),
+    this.register(new Widget("weather", "Weather", Set.of(
+        new DefaultWidgetSetting("language", "Language", "en"),
+        new DefaultWidgetSetting(
+            "tempUnit",
+            "Temperature unit",
+            "metric",
+            Set.of("standard", "metric", "imperial"))),
         false));
   }
 

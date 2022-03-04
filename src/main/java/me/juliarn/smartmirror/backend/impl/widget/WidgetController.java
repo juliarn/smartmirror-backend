@@ -80,7 +80,7 @@ public class WidgetController {
     Account account = new Account(accountId);
 
     return Mono.just(widgetName).mapNotNull(this.widgetRegistry::get)
-        .flatMap(widget -> this.widgetPositionRepository.save(
+        .flatMap(widget -> this.widgetPositionRepository.update(
             WidgetPosition.create(account, widget, area, x, y)))
         .<MutableHttpResponse<?>>map(
             widgetPosition -> HttpResponse.ok(this.positionToResponse(widgetPosition)))
@@ -136,7 +136,7 @@ public class WidgetController {
               return Mono.just(HttpResponse.badRequest(new JsonError("Illegal value supplied")));
             }
 
-            return this.widgetSettingRepository.save(
+            return this.widgetSettingRepository.update(
                     WidgetSetting.create(account, widget, settingName, value))
                 .map(widgetSetting -> HttpResponse.ok(this.settingToResponse(widgetSetting)));
           } else {
