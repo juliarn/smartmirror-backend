@@ -1,14 +1,13 @@
 package me.juliarn.smartmirror.backend.impl.services;
 
-import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
-import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
+import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.services.ServiceAuthRepository;
 import reactor.core.publisher.Mono;
@@ -17,14 +16,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller("api/services/auth")
+@Secured(Roles.ACCOUNT)
 public class ServiceAuthController {
 
   private final ServiceAuthRepository serviceAuthRepository;
 
   @Inject
-  public ServiceAuthController(
-      ServiceAuthRepository serviceAuthRepository,
-      BeanContext beanContext) {
+  public ServiceAuthController(ServiceAuthRepository serviceAuthRepository) {
     this.serviceAuthRepository = serviceAuthRepository;
   }
 
