@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror.backend.impl.services;
+package me.juliarn.smartmirror.backend.impl.services.auth;
 
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.http.annotation.Controller;
@@ -9,7 +9,7 @@ import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Inject;
 import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.account.Account;
-import me.juliarn.smartmirror.backend.api.services.ServiceAuthRepository;
+import me.juliarn.smartmirror.backend.api.services.auth.ServiceAuthRepository;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;

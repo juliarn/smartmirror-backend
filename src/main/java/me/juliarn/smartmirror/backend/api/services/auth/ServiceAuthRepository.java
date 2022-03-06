@@ -1,4 +1,4 @@
-package me.juliarn.smartmirror.backend.api.services;
+package me.juliarn.smartmirror.backend.api.services.auth;
 
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.async.annotation.SingleResult;
