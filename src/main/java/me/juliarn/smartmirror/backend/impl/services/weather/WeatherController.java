@@ -7,13 +7,19 @@ import io.micronaut.security.annotation.Secured;
 import jakarta.inject.Inject;
 import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.services.weather.OpenWeatherMapApiClient;
+import me.juliarn.smartmirror.backend.api.services.weather.model.WeatherState;
+import me.juliarn.smartmirror.backend.api.services.weather.model.WeatherState.WeatherInfo;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller("/api/services/weather")
 @Secured(Roles.ACCOUNT)
 public class WeatherController {
+
+  private static final String OPEN_WEATHER_MAP_ICON_URL_TEMPLATE = "http://openweathermap.org/img/wn/%s@2x.png";
 
   private final OpenWeatherMapApiClient openWeatherMapApiClient;
 
@@ -31,6 +37,18 @@ public class WeatherController {
     return Mono.zip(
             this.openWeatherMapApiClient.getWeather(lat, lon, lang, unit),
             this.openWeatherMapApiClient.getForecast(lat, lon, lang, unit))
-        .map(tuple -> Map.of("current", tuple.getT1(), "forecast", tuple.getT2().getList()));
+        .map(tuple -> Map.of(
+            "current",
+            this.mapToFullIconUrl(tuple.getT1()),
+            "forecast",
+            Arrays.stream(tuple.getT2().getList()).map(this::mapToFullIconUrl)
+                .collect(Collectors.toList())));
+  }
+
+  WeatherState mapToFullIconUrl(WeatherState weatherState) {
+    for (WeatherInfo weatherInfo : weatherState.getWeather()) {
+      weatherInfo.setIcon(OPEN_WEATHER_MAP_ICON_URL_TEMPLATE.formatted(weatherInfo.getIcon()));
+    }
+    return weatherState;
   }
 }

@@ -4,15 +4,15 @@ import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import me.juliarn.smartmirror.backend.api.widget.Widget;
+import me.juliarn.smartmirror.backend.api.widget.WidgetRegistry;
+import me.juliarn.smartmirror.backend.api.widget.setting.DefaultWidgetSetting;
+
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import me.juliarn.smartmirror.backend.api.widget.Widget;
-import me.juliarn.smartmirror.backend.api.widget.WidgetRegistry;
-import me.juliarn.smartmirror.backend.api.widget.setting.DefaultWidgetSetting;
 
 @Singleton
 public class DefaultWidgetRegistry implements WidgetRegistry {
