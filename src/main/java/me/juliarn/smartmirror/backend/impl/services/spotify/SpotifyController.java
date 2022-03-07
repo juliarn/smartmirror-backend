@@ -6,14 +6,12 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
+import javax.validation.constraints.NotNull;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.services.auth.ServiceTokenProvider;
 import me.juliarn.smartmirror.backend.api.services.spotify.SpotifyApiClient;
 import me.juliarn.smartmirror.backend.api.services.spotify.model.SpotifyState;
 import reactor.core.publisher.Mono;
-
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 @Controller("/api/services/spotify")
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -32,10 +30,10 @@ public class SpotifyController {
 
   @Get("/state")
   Mono<SpotifyState> getSpotifyState(@NotNull Authentication authentication) {
-    UUID accountId = UUID.fromString(authentication.getName());
-    Account account = new Account(accountId);
+    Account account = Account.fromAuthentication(authentication);
 
     return this.serviceTokenProvider.getToken("spotify", account)
-        .flatMap(token -> this.spotifyApiClient.getPlayingState("Bearer " + token));
+        .flatMap(token -> this.spotifyApiClient.getPlayingState("Bearer " + token))
+        .onErrorReturn(new SpotifyState(null, null, false, null));
   }
 }

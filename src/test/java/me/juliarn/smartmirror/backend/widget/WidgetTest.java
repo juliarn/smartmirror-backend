@@ -73,6 +73,7 @@ public class WidgetTest {
   void testWidgetPositionRepository() {
     Account account = this.accountRepository.save(new Account("root", "root", "root")).block();
     Assertions.assertNotNull(account);
+    Assertions.assertNotNull(account.accountId());
 
     Collection<Widget> widgets = this.widgetRegistry.getWidgets();
 

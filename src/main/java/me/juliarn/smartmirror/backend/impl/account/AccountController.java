@@ -11,14 +11,12 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
+import java.util.Map;
+import javax.validation.constraints.NotBlank;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.account.AccountRepository;
 import me.juliarn.smartmirror.backend.api.account.password.AccountPasswordEncoder;
 import reactor.core.publisher.Mono;
-
-import javax.validation.constraints.NotBlank;
-import java.util.Map;
-import java.util.UUID;
 
 @Controller("/api/account")
 @Secured(SecurityRule.IS_ANONYMOUS)
@@ -50,7 +48,7 @@ public class AccountController {
   @Get("/info")
   @Secured(SecurityRule.IS_AUTHENTICATED)
   Mono<Map<String, String>> getInfo(@NonNull Authentication authentication) {
-    UUID accountId = UUID.fromString(authentication.getName());
+    Long accountId = Long.parseLong(authentication.getName());
 
     return this.accountRepository.findById(accountId).map(
         account -> Map.of("username", account.accountName(), "firstName", account.firstName()));

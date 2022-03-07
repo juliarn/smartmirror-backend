@@ -16,6 +16,7 @@ import io.micronaut.security.oauth2.endpoint.authorization.state.validation.Stat
 import io.micronaut.security.oauth2.endpoint.token.request.TokenEndpointClient;
 import io.micronaut.security.oauth2.endpoint.token.request.context.OauthCodeTokenRequestContext;
 import io.micronaut.security.oauth2.endpoint.token.response.OauthAuthenticationMapper;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.services.auth.ServiceAuth;
@@ -26,8 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.UUID;
 
 @Singleton
 @Replaces(DefaultOauthAuthorizationResponseHandler.class)
@@ -42,6 +41,7 @@ public class CustomOauthAuthorizationResponseHandler implements OauthAuthorizati
   @Nullable
   private final StateValidator stateValidator;
 
+  @Inject
   CustomOauthAuthorizationResponseHandler(
       TokenEndpointClient tokenEndpointClient,
       ServiceAuthRepository serviceAuthRepository,
@@ -90,8 +90,7 @@ public class CustomOauthAuthorizationResponseHandler implements OauthAuthorizati
           return authorizationResponse.getCallbackRequest()
               .getAttribute("micronaut.AUTHENTICATION", Authentication.class)
               .map(authentication -> {
-                UUID accountId = UUID.fromString(authentication.getName());
-                Account account = new Account(accountId);
+                Account account = Account.fromAuthentication(authentication);
 
                 return this.serviceAuthRepository.save(
                         new ServiceAuth(

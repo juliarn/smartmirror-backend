@@ -8,4 +8,6 @@ public interface ServiceTokenProvider {
 
   @NonNull
   Mono<String> getToken(@NonNull String serviceName, @NonNull Account account);
+
+  void removeToken(@NonNull String serviceName, @NonNull Account account);
 }

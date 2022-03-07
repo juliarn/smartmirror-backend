@@ -28,7 +28,6 @@ import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller("api/widgets/")
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -55,8 +54,7 @@ public class WidgetController {
 
   @Get("/positions")
   Mono<?> getPositions(@NonNull Authentication authentication) {
-    UUID accountId = UUID.fromString(authentication.getName());
-    Account account = new Account(accountId);
+    Account account = Account.fromAuthentication(authentication);
 
     return Flux.fromIterable(this.widgetRegistry.getWidgets())
         // Find the saved position for a certain widget
@@ -77,8 +75,7 @@ public class WidgetController {
       @NonNull PositionArea area,
       float x,
       float y) {
-    UUID accountId = UUID.fromString(authentication.getName());
-    Account account = new Account(accountId);
+    Account account = Account.fromAuthentication(authentication);
 
     return Mono.just(widgetName).mapNotNull(this.widgetRegistry::get)
         .flatMap(widget -> this.widgetPositionRepository.update(
@@ -100,8 +97,7 @@ public class WidgetController {
 
   @Get("/settings")
   Mono<?> getSettings(@NonNull Authentication authentication) {
-    UUID accountId = UUID.fromString(authentication.getName());
-    Account account = new Account(accountId);
+    Account account = Account.fromAuthentication(authentication);
 
     return Flux.fromIterable(this.widgetRegistry.getWidgets())
         // Find all saved settings for a certain widget
@@ -122,8 +118,7 @@ public class WidgetController {
       @PathVariable @NotBlank String widgetName,
       @NotBlank String settingName,
       @NonNull String value) {
-    UUID accountId = UUID.fromString(authentication.getName());
-    Account account = new Account(accountId);
+    Account account = Account.fromAuthentication(authentication);
 
     return Mono.just(widgetName).mapNotNull(this.widgetRegistry::get)
         .flatMap(widget -> {

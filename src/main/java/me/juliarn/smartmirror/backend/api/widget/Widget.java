@@ -13,7 +13,6 @@ import java.util.Collection;
 @TypeDef(type = DataType.STRING, converter = WidgetAttributeConverter.class)
 public record Widget(@NonNull String name,
                      @NonNull String displayName,
-                     @NonNull String iconUrl,
                      @NonNull Collection<DefaultWidgetSetting> defaultSettings,
                      boolean requiresServiceAuth) {
 

@@ -21,6 +21,4 @@ public interface ServiceAuthRepository extends ReactorCrudRepository<ServiceAuth
   Mono<ServiceAuth> findByIdAccountAndIdServiceName(
       @NonNull Account account,
       @NonNull String serviceName);
-
-  void deleteByIdAccountAndIdServiceName(@NonNull Account account, @NonNull String serviceName);
 }
