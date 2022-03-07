@@ -4,7 +4,7 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Header;
 import io.micronaut.http.client.annotation.Client;
 import me.juliarn.smartmirror.backend.api.services.spotify.model.SpotifyUserInfo;
-import me.juliarn.smartmirror.backend.api.services.spotify.model.SpotifyPlaybackState;
+import me.juliarn.smartmirror.backend.api.services.spotify.model.SpotifyState;
 import reactor.core.publisher.Mono;
 
 @Header(name = "User-Agent", value = "SmartMirror-Backend")
@@ -15,5 +15,5 @@ public interface SpotifyApiClient {
   Mono<SpotifyUserInfo> getUserInfo(@Header("Authorization") String authorization);
 
   @Get("/player")
-  Mono<SpotifyPlaybackState> getPlayingState(@Header("Authorization") String authorization);
+  Mono<SpotifyState> getPlayingState(@Header("Authorization") String authorization);
 }

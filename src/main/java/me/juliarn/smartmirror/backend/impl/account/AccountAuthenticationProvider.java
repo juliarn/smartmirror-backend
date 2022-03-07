@@ -6,8 +6,6 @@ import io.micronaut.security.authentication.AuthenticationRequest;
 import io.micronaut.security.authentication.AuthenticationResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.List;
-import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.account.AccountRepository;
 import me.juliarn.smartmirror.backend.api.account.password.AccountPasswordEncoder;
 import org.reactivestreams.Publisher;
@@ -35,9 +33,7 @@ public class AccountAuthenticationProvider implements AuthenticationProvider {
           if (this.passwordEncoder.matches(
               authenticationRequest.getSecret().toString(),
               account.password())) {
-            return AuthenticationResponse.success(
-                String.valueOf(account.accountId()),
-                List.of(Roles.ACCOUNT));
+            return AuthenticationResponse.success(String.valueOf(account.accountId()));
           } else {
             return AuthenticationResponse.failure("Invalid credentials");
           }

@@ -17,7 +17,10 @@ public final class SpotifySongItem {
   private Integer durationMs;
 
   @Creator
-  public SpotifySongItem(String name, List<ItemArtist> artists, ItemAlbum album,
+  public SpotifySongItem(
+      String name,
+      List<ItemArtist> artists,
+      ItemAlbum album,
       Integer durationMs) {
     this.name = name;
     this.artists = artists;

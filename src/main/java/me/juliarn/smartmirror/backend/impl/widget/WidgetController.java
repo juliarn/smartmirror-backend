@@ -10,13 +10,8 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.http.hateoas.JsonError;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
+import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import javax.validation.constraints.NotBlank;
-import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.widget.Widget;
 import me.juliarn.smartmirror.backend.api.widget.WidgetRegistry;
@@ -29,8 +24,14 @@ import me.juliarn.smartmirror.backend.api.widget.setting.WidgetSettingRepository
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.constraints.NotBlank;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
 @Controller("api/widgets/")
-@Secured(Roles.ACCOUNT)
+@Secured(SecurityRule.IS_AUTHENTICATED)
 public class WidgetController {
 
   private final WidgetRegistry widgetRegistry;

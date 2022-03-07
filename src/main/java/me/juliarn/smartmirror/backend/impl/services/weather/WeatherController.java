@@ -4,8 +4,8 @@ import io.micronaut.core.annotation.NonNull;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
-import me.juliarn.smartmirror.backend.api.Roles;
 import me.juliarn.smartmirror.backend.api.services.weather.OpenWeatherMapApiClient;
 import me.juliarn.smartmirror.backend.api.services.weather.model.WeatherState;
 import me.juliarn.smartmirror.backend.api.services.weather.model.WeatherState.WeatherInfo;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller("/api/services/weather")
-@Secured(Roles.ACCOUNT)
+@Secured(SecurityRule.IS_AUTHENTICATED)
 public class WeatherController {
 
   private static final String OPEN_WEATHER_MAP_ICON_URL_TEMPLATE = "http://openweathermap.org/img/wn/%s@2x.png";
@@ -29,7 +29,7 @@ public class WeatherController {
   }
 
   @Post("/state")
-  Mono<Map<String, Object>> getState(
+  Mono<Map<String, Object>> getWeatherState(
       float lat,
       float lon,
       @NonNull String lang,

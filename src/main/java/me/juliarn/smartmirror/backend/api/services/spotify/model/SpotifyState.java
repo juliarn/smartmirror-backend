@@ -7,7 +7,7 @@ import io.micronaut.core.annotation.Introspected;
 
 @Introspected
 @JsonNaming(SnakeCaseStrategy.class)
-public final class SpotifyPlaybackState {
+public final class SpotifyState {
 
   private SpotifyDevice device;
   private Integer progressMs;
@@ -15,7 +15,10 @@ public final class SpotifyPlaybackState {
   private SpotifySongItem item;
 
   @Creator
-  public SpotifyPlaybackState(SpotifyDevice device, Integer progressMs, boolean isPlaying,
+  public SpotifyState(
+      SpotifyDevice device,
+      Integer progressMs,
+      boolean isPlaying,
       SpotifySongItem item) {
     this.device = device;
     this.progressMs = progressMs;
