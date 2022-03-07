@@ -1,12 +1,9 @@
 package me.juliarn.smartmirror.backend.api.services.spotify.model;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.micronaut.core.annotation.Creator;
 import io.micronaut.core.annotation.Introspected;
 
 @Introspected
-@JsonNaming(SnakeCaseStrategy.class)
 public final class SpotifyState {
 
   private SpotifyDevice device;
@@ -42,12 +39,12 @@ public final class SpotifyState {
     this.progressMs = progressMs;
   }
 
-  public boolean isPlaying() {
+  public boolean isIsPlaying() {
     return this.isPlaying;
   }
 
-  public void setPlaying(boolean playing) {
-    isPlaying = playing;
+  public void setIsPlaying(boolean playing) {
+    this.isPlaying = playing;
   }
 
   public SpotifySongItem getItem() {

@@ -1,13 +1,18 @@
 package me.juliarn.smartmirror.backend.impl.services.auth;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.security.oauth2.grants.AsMap;
 import io.micronaut.security.oauth2.grants.GrantType;
 import io.micronaut.security.oauth2.grants.SecureGrant;
+import io.micronaut.security.oauth2.grants.SecureGrantMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
+@Introspected
+@JsonNaming(SnakeCaseStrategy.class)
 public class RefreshTokenGrant implements SecureGrant, AsMap {
 
   private static final String KEY_GRANT_TYPE = "grant_type";
@@ -56,7 +61,7 @@ public class RefreshTokenGrant implements SecureGrant, AsMap {
   @Override
   @NonNull
   public Map<String, String> toMap() {
-    Map<String, String> map = new HashMap<>();
+    Map<String, String> map = new SecureGrantMap(4);
 
     map.put(KEY_GRANT_TYPE, this.grantType);
     map.put(KEY_REFRESH_TOKEN, this.refreshToken);

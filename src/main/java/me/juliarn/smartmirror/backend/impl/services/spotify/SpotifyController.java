@@ -36,6 +36,6 @@ public class SpotifyController {
     Account account = new Account(accountId);
 
     return this.serviceTokenProvider.getToken("spotify", account)
-        .flatMap(this.spotifyApiClient::getPlayingState);
+        .flatMap(token -> this.spotifyApiClient.getPlayingState("Bearer " + token));
   }
 }

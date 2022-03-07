@@ -1,14 +1,11 @@
 package me.juliarn.smartmirror.backend.api.services.spotify.model;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.micronaut.core.annotation.Creator;
 import io.micronaut.core.annotation.Introspected;
 
 import java.util.List;
 
 @Introspected
-@JsonNaming(SnakeCaseStrategy.class)
 public final class SpotifySongItem {
 
   private String name;
@@ -61,7 +58,6 @@ public final class SpotifySongItem {
   }
 
   @Introspected
-  @JsonNaming(SnakeCaseStrategy.class)
   public static final class ItemArtist {
 
     private String name;
@@ -81,7 +77,6 @@ public final class SpotifySongItem {
   }
 
   @Introspected
-  @JsonNaming(SnakeCaseStrategy.class)
   public static final class ItemAlbum {
 
     private String name;
@@ -110,7 +105,6 @@ public final class SpotifySongItem {
     }
 
     @Introspected
-    @JsonNaming(SnakeCaseStrategy.class)
     public static final class AlbumImage {
 
       private String url;

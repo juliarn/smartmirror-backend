@@ -1,12 +1,9 @@
 package me.juliarn.smartmirror.backend.api.services.spotify.model;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.micronaut.core.annotation.Creator;
 import io.micronaut.core.annotation.Introspected;
 
 @Introspected
-@JsonNaming(SnakeCaseStrategy.class)
 public final class SpotifyDevice {
 
   private String id;
@@ -40,11 +37,11 @@ public final class SpotifyDevice {
     this.name = name;
   }
 
-  public boolean isActive() {
+  public boolean isIsActive() {
     return this.isActive;
   }
 
-  public void setActive(boolean active) {
+  public void setIsActive(boolean active) {
     isActive = active;
   }
 

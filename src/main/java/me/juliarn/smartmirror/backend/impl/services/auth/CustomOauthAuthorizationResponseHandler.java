@@ -17,10 +17,17 @@ import io.micronaut.security.oauth2.endpoint.token.request.TokenEndpointClient;
 import io.micronaut.security.oauth2.endpoint.token.request.context.OauthCodeTokenRequestContext;
 import io.micronaut.security.oauth2.endpoint.token.response.OauthAuthenticationMapper;
 import jakarta.inject.Singleton;
+import me.juliarn.smartmirror.backend.api.account.Account;
+import me.juliarn.smartmirror.backend.api.services.auth.ServiceAuth;
+import me.juliarn.smartmirror.backend.api.services.auth.ServiceAuthId;
+import me.juliarn.smartmirror.backend.api.services.auth.ServiceAuthRepository;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @Singleton
 @Replaces(DefaultOauthAuthorizationResponseHandler.class)
@@ -30,14 +37,17 @@ public class CustomOauthAuthorizationResponseHandler implements OauthAuthorizati
       CustomOauthAuthorizationResponseHandler.class);
 
   private final TokenEndpointClient tokenEndpointClient;
+  private final ServiceAuthRepository serviceAuthRepository;
 
   @Nullable
   private final StateValidator stateValidator;
 
   CustomOauthAuthorizationResponseHandler(
       TokenEndpointClient tokenEndpointClient,
+      ServiceAuthRepository serviceAuthRepository,
       @Nullable StateValidator stateValidator) {
     this.tokenEndpointClient = tokenEndpointClient;
+    this.serviceAuthRepository = serviceAuthRepository;
     this.stateValidator = stateValidator;
   }
 
@@ -62,7 +72,6 @@ public class CustomOauthAuthorizationResponseHandler implements OauthAuthorizati
       }
 
     } else {
-      state = null;
       if (LOG.isTraceEnabled()) {
         LOG.trace("Skipping state validation, no state validator found");
       }
@@ -74,14 +83,23 @@ public class CustomOauthAuthorizationResponseHandler implements OauthAuthorizati
     return Flux.from(
             this.tokenEndpointClient.sendRequest(context))
         .switchMap(response -> {
-          Authentication authentication = authorizationResponse.getCallbackRequest()
-              .getAttribute("micronaut.AUTHENTICATION", Authentication.class).orElse(null);
-
-          if (LOG.isTraceEnabled()) {
-            LOG.trace("Token endpoint returned a success response. Creating a user details");
+          if (response.getRefreshToken() == null) {
+            return Mono.error(new IllegalStateException("No refresh token provided"));
           }
-          return Flux.from(authenticationMapper.createAuthenticationResponse(response, state))
-              .map(AuthenticationResponse.class::cast);
+
+          return authorizationResponse.getCallbackRequest()
+              .getAttribute("micronaut.AUTHENTICATION", Authentication.class)
+              .map(authentication -> {
+                UUID accountId = UUID.fromString(authentication.getName());
+                Account account = new Account(accountId);
+
+                return this.serviceAuthRepository.save(
+                        new ServiceAuth(
+                            new ServiceAuthId(account, clientConfiguration.getName()),
+                            response.getRefreshToken()))
+                    .map(serviceAuth -> AuthenticationResponse.failure());
+              })
+              .orElse(Mono.error(new IllegalStateException("Not authenticated")));
         });
   }
 }
