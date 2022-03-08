@@ -47,16 +47,6 @@ micronaut :
           token :
             url : https://accounts.spotify.com/api/token
             auth-method : client-secret-post
-        mso :
-          client-id : ${MSO_OAUTH_CLIENT_ID:""}
-          client-secret : ${MSO_OAUTH_CLIENT_SECRET:""}
-          authorization :
-            url : https://marienschule.com/oauth/authorize
-          token :
-            url : https://marienschule.com/oauth/token
-            auth-method : client_secret_post
-          openid :
-            issuer : https://marienschule.com
       callback-uri : /api/services/auth{/provider}/callback
       login-uri : /api/services/auth{/provider}/login
 r2dbc :

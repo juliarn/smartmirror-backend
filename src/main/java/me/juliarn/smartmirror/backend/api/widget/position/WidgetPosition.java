@@ -14,7 +14,7 @@ public record WidgetPosition(
     float y) {
 
   public static WidgetPosition createDefault(@NonNull Account account, @NonNull Widget widget) {
-    return new WidgetPosition(new WidgetPositionId(account, widget), PositionArea.TOP_LEFT, 0F, 0F);
+    return new WidgetPosition(new WidgetPositionId(account, widget), widget.defaultArea(), 0F, 0F);
   }
 
   public static WidgetPosition create(
