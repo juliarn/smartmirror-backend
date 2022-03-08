@@ -58,11 +58,7 @@ public class DefaultWidgetRegistry implements WidgetRegistry {
             new DefaultWidgetSetting(
                 "userId",
                 "User Id",
-                ""),
-            new DefaultWidgetSetting(
-                "coverLessonTitle",
-                "Cover lessons title",
-                "Cover lessons for today")),
+                "")),
         PositionArea.BOTTOM_LEFT,
         false));
     this.register(new Widget(

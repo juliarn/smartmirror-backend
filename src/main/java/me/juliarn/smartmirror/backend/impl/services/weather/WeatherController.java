@@ -7,6 +7,9 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.services.weather.OpenWeatherMapApiClient;
 import me.juliarn.smartmirror.backend.api.services.weather.model.WeatherState;
@@ -16,10 +19,6 @@ import me.juliarn.smartmirror.backend.api.widget.WidgetRegistry;
 import me.juliarn.smartmirror.backend.api.widget.setting.WidgetSettingRepository;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
-
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller("/api/services/weather")
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -50,8 +49,7 @@ public class WeatherController {
       float lon,
       @NonNull String lang) {
     return Mono.from(this.widgetSettingRepository.findByIdAccountAndIdWidget(
-                Account.fromAuthentication(authentication),
-                this.weatherWidget)
+                Account.fromAuthentication(authentication), this.weatherWidget)
             .filter(widgetSetting -> TEMP_UNIT_SETTING_NAME.equals(widgetSetting.id().settingName())))
         .flatMap(widgetSetting -> Mono.zip(
                 this.openWeatherMapApiClient.getWeather(lat, lon, lang, widgetSetting.value()),

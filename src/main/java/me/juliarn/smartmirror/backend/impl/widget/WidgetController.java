@@ -12,6 +12,10 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import jakarta.inject.Inject;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import javax.validation.constraints.NotBlank;
 import me.juliarn.smartmirror.backend.api.account.Account;
 import me.juliarn.smartmirror.backend.api.widget.Widget;
 import me.juliarn.smartmirror.backend.api.widget.WidgetRegistry;
@@ -23,11 +27,6 @@ import me.juliarn.smartmirror.backend.api.widget.setting.WidgetSetting;
 import me.juliarn.smartmirror.backend.api.widget.setting.WidgetSettingRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import javax.validation.constraints.NotBlank;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller("api/widgets/")
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -102,6 +101,10 @@ public class WidgetController {
     return Flux.fromIterable(this.widgetRegistry.getWidgets())
         // Find all saved settings for a certain widget
         .flatMap(widget -> this.widgetSettingRepository.findByIdAccountAndIdWidget(account, widget)
+            // Only accept settings that are also present in the default setting of the widget
+            .filter(widgetSetting -> widget.defaultSettings().stream().anyMatch(
+                defaultSetting -> defaultSetting.settingName()
+                    .equals(widgetSetting.id().settingName())))
             // If no settings present, save all default settings for that widget
             .switchIfEmpty(Flux.fromIterable(widget.defaultSettings())
                 .flatMap(defaultSetting -> this.widgetSettingRepository.save(
@@ -148,6 +151,6 @@ public class WidgetController {
         "settingName",
         widgetSetting.id().settingName(),
         "value",
-        String.valueOf(widgetSetting.value()));
+        widgetSetting.value());
   }
 }

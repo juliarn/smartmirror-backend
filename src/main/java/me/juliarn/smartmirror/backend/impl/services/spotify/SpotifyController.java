@@ -17,6 +17,12 @@ import reactor.core.publisher.Mono;
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class SpotifyController {
 
+  private static final SpotifyState DEFAULT_SPOTIFY_STATE = new SpotifyState(
+      null,
+      null,
+      false,
+      null);
+
   private final ServiceTokenProvider serviceTokenProvider;
   private final SpotifyApiClient spotifyApiClient;
 
@@ -34,6 +40,6 @@ public class SpotifyController {
 
     return this.serviceTokenProvider.getToken("spotify", account)
         .flatMap(token -> this.spotifyApiClient.getPlayingState("Bearer " + token))
-        .onErrorReturn(new SpotifyState(null, null, false, null));
+        .onErrorReturn(DEFAULT_SPOTIFY_STATE);
   }
 }

@@ -24,7 +24,7 @@ micronaut :
         path : api/account/logout
         get-allowed : true
     redirect :
-      enabled : false
+      enabled : true
     token :
       jwt :
         signatures :
