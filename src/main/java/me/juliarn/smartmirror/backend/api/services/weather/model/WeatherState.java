@@ -1,23 +1,27 @@
 package me.juliarn.smartmirror.backend.api.services.weather.model;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.micronaut.core.annotation.Creator;
 import io.micronaut.core.annotation.Introspected;
 
 @Introspected
-@JsonNaming(SnakeCaseStrategy.class)
 public final class WeatherState {
 
   private WeatherInfo[] weather;
   private MainWeatherInfo main;
+  private SystemWeatherInfo sys;
   private String name;
   private long dt;
 
   @Creator
-  public WeatherState(WeatherInfo[] weather, MainWeatherInfo main, String name, long dt) {
+  public WeatherState(
+      WeatherInfo[] weather,
+      MainWeatherInfo main,
+      SystemWeatherInfo sys,
+      String name,
+      long dt) {
     this.weather = weather;
     this.main = main;
+    this.sys = sys;
     this.name = name;
     this.dt = dt;
   }
@@ -38,6 +42,14 @@ public final class WeatherState {
     this.main = main;
   }
 
+  public SystemWeatherInfo getSys() {
+    return this.sys;
+  }
+
+  public void setSys(SystemWeatherInfo sys) {
+    this.sys = sys;
+  }
+
   public String getName() {
     return this.name;
   }
@@ -55,7 +67,6 @@ public final class WeatherState {
   }
 
   @Introspected
-  @JsonNaming(SnakeCaseStrategy.class)
   public static final class WeatherInfo {
 
     private String main;
@@ -95,7 +106,6 @@ public final class WeatherState {
   }
 
   @Introspected
-  @JsonNaming(SnakeCaseStrategy.class)
   public static final class MainWeatherInfo {
 
     private float temp;
@@ -141,6 +151,45 @@ public final class WeatherState {
 
     public void setTempMax(float tempMax) {
       this.tempMax = tempMax;
+    }
+  }
+
+  @Introspected
+  public static final class SystemWeatherInfo {
+
+    private String country;
+    private long sunrise;
+    private long sunset;
+
+    @Creator
+    public SystemWeatherInfo(String country, long sunrise, long sunset) {
+      this.country = country;
+      this.sunrise = sunrise;
+      this.sunset = sunset;
+    }
+
+    public String getCountry() {
+      return this.country;
+    }
+
+    public void setCountry(String country) {
+      this.country = country;
+    }
+
+    public long getSunrise() {
+      return this.sunrise;
+    }
+
+    public void setSunrise(long sunrise) {
+      this.sunrise = sunrise;
+    }
+
+    public long getSunset() {
+      return this.sunset;
+    }
+
+    public void setSunset(long sunset) {
+      this.sunset = sunset;
     }
   }
 }
