@@ -8,6 +8,8 @@ micronaut :
         web :
           allowedOrigins :
             - http://localhost:3000
+    host : ${SERVER_HOST:0.0.0.0}
+    port : ${SERVER_PORT:8080}
   router :
     static-resources :
       default :
@@ -38,7 +40,7 @@ micronaut :
       clients :
         spotify :
           client-id : ${SPOTIFY_OAUTH_CLIENT_ID:""}
-          client-secret : ${SPOTIFY_CLIENT_SECRET:""}
+          client-secret : ${SPOTIFY_OAUTH_CLIENT_SECRET:""}
           scopes :
             - user-read-currently-playing
             - user-read-playback-state
@@ -55,7 +57,7 @@ r2dbc :
       url : ${R2DBC_URL:`r2dbc:h2:mem:///smartmirror;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
       username : ${R2DBC_USER:root}
       password : ${R2DBC_PASSWORD:}
-      schema-generate : ${R2DBC_SCHEMA_GENERATE:create_drop}
+      schema-generate : ${R2DBC_SCHEMA_GENERATE:create}
       dialect : ${R2DBC_DIALECT:mysql}
 smartmirror :
   services :
