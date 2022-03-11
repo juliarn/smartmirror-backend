@@ -30,7 +30,7 @@ micronaut :
         signatures :
           secret :
             generator :
-              secret : ${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}
+              secret : ${JWT_SECRET:pleaseChangeThisSecretForANewOne}
         generator :
           access-token :
             expiration : 7776000
@@ -52,11 +52,11 @@ micronaut :
 r2dbc :
   datasources :
     default :
-      url : ${JDBC_URL:`r2dbc:h2:mem:///smartmirror;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
-      username : ${JDBC_USER:root}
-      password : ${JDBC_PASSWORD:}
-      schema-generate : ${JDBC_SCHEMA_GENERATE:create_drop}
-      dialect : ${JDBC_DIALECT:mysql}
+      url : ${R2DBC_URL:`r2dbc:h2:mem:///smartmirror;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
+      username : ${R2DBC_USER:root}
+      password : ${R2DBC_PASSWORD:}
+      schema-generate : ${R2DBC_SCHEMA_GENERATE:create_drop}
+      dialect : ${R2DBC_DIALECT:mysql}
 smartmirror :
   services :
     openweathermap :
