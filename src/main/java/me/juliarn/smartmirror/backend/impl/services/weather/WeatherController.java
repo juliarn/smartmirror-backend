@@ -26,7 +26,7 @@ public class WeatherController {
 
   private static final String WEATHER_WIDGET_NAME = "weather";
   private static final String TEMP_UNIT_SETTING_NAME = "tempUnit";
-  private static final String OPEN_WEATHER_MAP_ICON_URL_TEMPLATE = "http://openweathermap.org/img/wn/%s@2x.png";
+  private static final String OPEN_WEATHER_MAP_ICON_URL_TEMPLATE = "https://openweathermap.org/img/wn/%s@2x.png";
 
   private final Widget weatherWidget;
   private final WidgetSettingRepository widgetSettingRepository;
